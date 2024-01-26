@@ -27,6 +27,11 @@ export default {
       }
     },
   },
+  variants: {
+    extend: {
+      display: ['hover', 'focus', 'group-hover', 'group-focus', 'md'],
+    },
+  },
   plugins: [],
 }
 
