@@ -1,40 +1,37 @@
-import { useState } from 'react'
-import ReactMapGL, { Marker, NavigationControl } from 'react-map-gl';
+//import { useRef, useEffect } from 'react';
+import { MapContainer, TileLayer } from 'react-leaflet';
+import 'mapbox-gl/dist/mapbox-gl.css'
+import 'leaflet-control-geocoder/dist/Control.Geocoder.css';
+import { CurrentPosition } from './CurrentPosition';
 import mapboxgl from 'mapbox-gl';
-import "mapbox-gl/dist/mapbox-gl.css"
 
-const accessToken = (mapboxgl.accessToken = 
-    "pk.eyJ1IjoibWlsZmVyMTYiLCJhIjoiY2xyd3Fub2F3MHI2bDJrcGdhYjMxb2liYiJ9.DAWRcin7uu6LHRY8KKmzQA");
+// Configura el token de acceso de Mapbox GL JS
+mapboxgl.accessToken = import.meta.env.VITE_ACCESS_TOKEN_MAPBOX;
 
-// eslint-disable-next-line react/prop-types
-const MapaMapBox = ({ searchedLocation }) => {
+const SearchMapBox = () => {
+  const position = [4.60971 , -74.08175];
 
-   const [viewport, setViewport] = useState({
-        width: '100%',
-        height: '400px',
-        latitude: 4.60971,
-        longitude: -74.08175,
-        zoom: 13
-    });
+  return (
+    <MapContainer 
+    center={position} 
+    zoom={14} 
+    scrollWheelZoom={true}
+    style={{ width: '100%', height: '100%' }}
+    >
+         <TileLayer
+        attribution='&copy; <a href="https://www.mapbox.com/">Mapbox</a>'
+        url="https://api.mapbox.com/styles/v1/{id}/tiles/{z}/{x}/{y}?access_token={accessToken}"
+        id={import.meta.env.VITE_STYLE_ID} // Puedes cambiar el estilo aquí
+        tileSize={512}
+        zoomOffset={-1}
+        accessToken={mapboxgl.accessToken}
+        maxZoom={18}
+      />
+        
+      <CurrentPosition />
+      
+    </MapContainer>
+  );
+};
 
-    return (
-        <ReactMapGL
-            {...viewport}
-            mapboxApiAccessToken={accessToken}
-            mapStyle="mapbox://styles/mapbox/streets-v11"
-            onViewportChange={(newViewport) => setViewport(newViewport)}
-        >
-            {/* Marcador en una ubicación específica */}
-            <Marker latitude={4.60971} longitude={-74.08175} offsetLeft={-20} offsetTop={-10}>
-                <div>Ubicación</div>
-            </Marker>
-
-             {/* Control de navegación para zoom */}
-            <div style={{ position: 'absolute', right: 30, top: 30 }}>
-                <NavigationControl />
-            </div>
-        </ReactMapGL>
-    );
-}
-
-export default MapaMapBox
+export default SearchMapBox;

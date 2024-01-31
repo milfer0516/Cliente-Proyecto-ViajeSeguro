@@ -1,11 +1,15 @@
 import Navbar from '../components/Navbar';
 
+
 const NuestrosServicios = () => {
+
   return (
     
     <>
       <Navbar />
-      <div>NuestrosServicios</div>
+      <div className='w-full h-[30rem]'>
+        
+      </div>
     </>
   )
 }

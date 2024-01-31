@@ -1,89 +1,104 @@
 import { useState } from 'react';
-import axios from 'axios';
 import { FaMapMarkerAlt, FaSearch, FaBus  } from 'react-icons/fa';
 import { MdCalendarMonth } from 'react-icons/md'
+import GetGeocodingMapBox from '../api/GetGeocodingMapBox';
 
-const TOKEN_ACCESS = "pk.eyJ1IjoibWlsZmVyMTYiLCJhIjoiY2xyd3Fub2F3MHI2bDJrcGdhYjMxb2liYiJ9.DAWRcin7uu6LHRY8KKmzQA"
 
-// eslint-disable-next-line react/prop-types
-export const FormularioPageInicio = ({ onSearchLocation }) => {
+export const FormularioPageInicio = () => {
 
-    const [search, setSearch] = useState('');
-    const [suggestions, setSuggestions] = useState([]);
+    const [inputValue, setInputValue] = useState('');
+    const [geocodingData, setGeocodingData] = useState([]);
+    const [showList, setShowList] = useState(true);
+    //const [ selectPosition, setSelectPosition ] = useState(null)
 
-    const handleInputChange = (event) => {
-        const query = event.target.value
-        setSearch(query);
-
-        if( query > 2 ) {
-            obtenerSugerenciasAutocompletado(query)
-        }
-    };
-
-    const obtenerSugerenciasAutocompletado = async (query) => {
-        try {
-            const response = await axios.get(
-                `https://api.mapbox.com/geocoding/v5/mapbox.places/${query}.json?access_token=${TOKEN_ACCESS}`
-            );
-            const features = response.data.features;
-            setSuggestions(features);
-        } catch (error) {
-            console.error('Error al obtener sugerencias de autocompletado:', error);
-        }
-    };
-    const handleSuggestionClick = (suggestion) => {
-        setSearch(suggestion.place_name);
-        setSuggestions([]);
-    };
-
-    const handleFormSubmit = async (e) => {
+    const handleInputChange = async (e) => {
         e.preventDefault();
-        try {
-            const response = await axios.get(`https://api.mapbox.com/geocoding/v5/mapbox.places/${search}.json?access_token=${TOKEN_ACCESS}`)
+        const inputValue = e.target.value; // Obténer el valor actual del campo de entrada
+        console.log(inputValue)
+        setInputValue(inputValue); // Actualiza el estado inputValue
 
-            console.log(response)
-
-            const coordinates = response.data.features[0].center;
-            onSearchLocation(coordinates);
-        } catch (error) {
-            console.log("Error al buscar la ubicación", error)
-        }
+        // Verifica la longitud del valor actualizado del campo de entrada
+        if (inputValue.length > 2) {
+            setShowList(true);
+            setGeocodingData([]);
+        } else {
+            setShowList(false);
     }
+};
 
+    const handleListItemClick = (place) => {
+        console.log(place)
+        setInputValue(place)
+        setShowList(false);
+    };
+
+    const handleClick = (e) => {
+        e.preventDefault();
+        //console.log(geocodingData);
+        if(geocodingData.length > 0) {
+            setInputValue(geocodingData[0].place_name);
+        }
+        else {
+            setTimeout(() => {
+                setInputValue('');
+                setGeocodingData([])
+            }, 2000);
+        }
+        console.log(inputValue);
+        
+    };
+    
   return (
 
-     <form onSubmit={handleFormSubmit}>
-         <ul>
-            {suggestions.map((suggestion) => (
-                <li key={suggestion.id} onClick={() => handleSuggestionClick(suggestion)}>
-                    {suggestion.place_name}
-                </li>
-            ))}
-        </ul>
+     <form >
         <div className='p-3 text-sm lg:text-lg grid sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-2'>
             <div className='flex items-center '>
-            <input  type="text"
-            value={search}
-            placeholder='Destino' 
-            className="p-2 border-2 rounded-md w-full " 
-            onChange={handleInputChange}
-            />
-            <span className='-mx-8 md:text-3xl text-2xl'> <button type="submit">{<FaMapMarkerAlt />}</button> </span>
+                <input  type="text"
+                placeholder='Destino' 
+                className="p-2 border-2 rounded-md w-full "
+                value={inputValue}
+                onChange={handleInputChange}
+                />
+                <span className='-mx-8 md:text-3xl text-2xl'>{<FaMapMarkerAlt />} </span>
+            </div>
+            {showList && (
+            <div className='absolute w-[24rem] '>
+                <ul className='relative text-white -left-3 -bottom-12 bg-gray-400 rounded-md'>
+                {geocodingData.map((place) => (
+                <li key={place.id} className='p-2 py-3 border-2 rounded-md'
+                    onClick={() => handleListItemClick(place.place_name)}
+                    >
+                    <div className='flex justify-between w-full rounded-lg'>
+                        <div className='flex items-center  w-full '>
+                            <FaMapMarkerAlt className='mr-2 w-10' />
+                            <p className='text-sm flex flex-1'>{place.place_name}</p>
+                        </div>
+                    </div>
+                </li>
+                ))}
+                </ul>
+            </div>
+            )}
+            <div className="flex items-center">
+                <input type="text" placeholder='Fecha' className="p-2 md:py-3 border-2 rounded-md w-full text-sm" />
+                <span className='-mx-8 md:text-3xl text-2xl'> {<MdCalendarMonth />} </span>
             </div>
             <div className="flex items-center">
-            <input type="text" placeholder='Fecha' className="p-2 md:py-3 border-2 rounded-md w-full text-sm" />
-            <span className='-mx-8 md:text-3xl text-2xl'> {<MdCalendarMonth />} </span>
-            </div>
-            <div className="flex items-center">
-            <input type="text" placeholder=' Tipo de Servicio ' className="p-2 border-2 rounded-md w-full" />
-            <span className='-mx-8 text-2xl md:text-3xl'> {<FaBus  />} </span>
+                <input type="text" placeholder=' Tipo de Servicio ' className="p-2 border-2 rounded-md w-full" />
+                <span className='-mx-8 text-2xl md:text-3xl'> {<FaBus  />} </span>
 
             </div>
             <div className='flex items-center lg:mx-28'>
-            <input type="search" placeholder='Buscar' className="p-2 border-2 rounded-md lg:w-32 w-full " />
-            <span className='-mx-8 text-xl'> {<FaSearch />} </span>
+                <button onClick={handleClick} type="submit" placeholder='Bucar' className="p-2 border-2 rounded-md lg:w-32 w-full poi bg-red-500" >Buscar </button>
+                <span className='-mx-8 text-xl'>{<FaSearch />}</span>
             </div>
         </div>
+        <GetGeocodingMapBox query={inputValue} 
+        onGeocodingData={(data) => setGeocodingData(data)}
+        
+        />
+        
     </form>
+    
   )
 }
