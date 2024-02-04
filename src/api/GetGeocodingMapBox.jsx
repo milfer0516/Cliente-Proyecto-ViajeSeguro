@@ -7,7 +7,6 @@ mapboxgl.accessToken = import.meta.env.VITE_ACCESS_TOKEN_MAPBOX;
 
 const GetGeocodingMapBox = ({ query, onGeocodingData }) => {
 
-
     useEffect(() => {
         const fetchDataFromMapBox = async () => {
             try {
@@ -15,17 +14,13 @@ const GetGeocodingMapBox = ({ query, onGeocodingData }) => {
 
                 //console.log(data.features[0].geometry.coordinates);
                 onGeocodingData(data.features);
-                /* if(selectedPosition) {
-                    return setSelectPosition(data.features[0].geometry.coordinates);
-                } */
-
-                
                 return data.features;
                 
             } catch (error) {
                 console.log(error);
                 return [];
             }
+            
         };
 
         if (query && query.length > 2) {
@@ -33,7 +28,7 @@ const GetGeocodingMapBox = ({ query, onGeocodingData }) => {
         }
     }, [query, onGeocodingData ]);
 
-    return null; // No necesitas renderizar nada aquí
+    return null;
 };
 
 export default GetGeocodingMapBox;

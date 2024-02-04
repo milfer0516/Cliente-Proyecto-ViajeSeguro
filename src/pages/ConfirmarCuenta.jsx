@@ -34,7 +34,9 @@ const ConfirmarCuenta = () => {
     };
 
     useEffect(() => {
+      
       confirmarCuenta()
+
     },[tokenId])
 
   const cerrarAlerta = () => {

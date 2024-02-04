@@ -8,6 +8,7 @@ import { useNavigate } from 'react-router-dom';
 // Contexto
 export const AuthContext = createContext();
 
+
 // Proveedor del contexto
 export const AuthContextProvider = ({ children }) => {
     
