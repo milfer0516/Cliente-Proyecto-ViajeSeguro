@@ -9,16 +9,15 @@ const AddressCurrentPosition = ( { latitude, longitude, getAddress } ) => {
     
     //console.log("Coordenadas utilizadas:", latitude, longitude);
 
-
     useEffect(() => {
 
         const fetchAddressMapBox = async () => {
             try {
                 const response = await axios.get(`https://api.mapbox.com/geocoding/v5/mapbox.places/${longitude},${latitude}.json?access_token=${mapboxgl.accessToken}`);
 
-                console.log(response.data);
+                //console.log(response);
                 getAddress(response.data);
-                return response.data;
+                //return response.data;
                 
             } catch (error) {
                console.error("Error obteniendo la dirección del usuario", error); 
