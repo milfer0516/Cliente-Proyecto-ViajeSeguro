@@ -11,6 +11,7 @@ import { useState, useEffect, useRef } from 'react';
 mapboxgl.accessToken = import.meta.env.VITE_ACCESS_TOKEN_MAPBOX;
 
 const SearchMapBox = ({ setUserLocation, userPosition }) => {
+
   const mapContainer = useRef(null);
   const map = useRef(null);
   const [error, setError] = useState('');
@@ -41,7 +42,7 @@ const SearchMapBox = ({ setUserLocation, userPosition }) => {
       map.current = new mapboxgl.Map({
         container: mapContainer.current,
         style: 'mapbox://styles/mapbox/streets-v11',
-        center: [userPosition?.longitude, userPosition?.latitude],
+        center: [userPosition.longitude, userPosition.latitude],
         zoom
       });
 
@@ -58,8 +59,8 @@ const SearchMapBox = ({ setUserLocation, userPosition }) => {
       });
 
       map.current.addControl(new mapboxgl.FullscreenControl());
-      map.current.addControl(new mapboxgl.NavigationControl());
-      map.current.addControl(new mapboxgl.ScaleControl());
+      //map.current.addControl(new mapboxgl.NavigationControl());
+      //map.current.addControl(new mapboxgl.ScaleControl());
       map.current.addControl(new mapboxgl.AttributionControl());
     } else {
       map.current.setCenter([userPosition.longitude, userPosition.latitude]);
@@ -87,7 +88,8 @@ const SearchMapBox = ({ setUserLocation, userPosition }) => {
     <section >
       <div className="h-[30rem] pt-10" ref={mapContainer}>
         <h2> { !error ? null : error} </h2>
-        <div className="text-center text-sm bg-gray-600 text-white w-80 relative z-10 -bottom-[25rem] left-36 pt-2 pb-2">
+        <div className="text-center text-sm bg-gray-600 text-white w-80 
+        relative z-10 left-1 -bottom-[23rem] md:-bottom-[25rem] md:left-36 pt-2 pb-2">
           Longitude: {lng} | Latitude: {lat} 
         </div>
       </div>

@@ -1,36 +1,29 @@
 /* eslint-disable react/prop-types */
 import { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
-import Cookies from 'js-cookie';
-import { FaMapMarkerAlt, FaBus  } from 'react-icons/fa';
+import { FaMapMarkerAlt, FaBus, FaPlusCircle } from 'react-icons/fa';
+import { FaLocationArrow } from "react-icons/fa6";
 import GetGeocodingMapBox from '../api/GetGeocodingMapBox';
 import AddressCurrentPosition from '../api/AddressCurrentPosition';
 import Categorias  from '../api/Categorias';
 
-export const FormularioPageInicio = ( { getPosition, userPosition } ) => {
+export const FormularioPageInicio = ( { getPosition, userPosition, calculateTime, calculateDistance } ) => {
 
     const [inputValue, setInputValue] = useState('');
     const [destinoFinal, setDestinoFinal] = useState('');
     const [categoria, setCategoria] = useState('');
-    const [showList, setShowList] = useState(false);
+     const [showList, setShowList] = useState({ inputValue: false, destinoFinal: false }); 
     const [showOptions, setShowOptions] = useState(false);
     const [selectedOptions, setSelectedOptions] = useState([]);
-    const [geocodingResponse, setGeocodingResponse] = useState(null);
-    const [storedCoordinates, setStoredCoordinates] = useState(null);
-    
-    // Constante de las Coordenadas 
-    const { longitude, latitude } = userPosition;
+    const [geocodingData, setGeocodingData] = useState([]);
 
-
-    useEffect(() => {
-        // Verificar si hay coordenadas almacenadas en las cookies al montar el componente
-        Cookies.get('userCoordinates');
-        console.log(storedCoordinates)
-        if (storedCoordinates) {
-            setStoredCoordinates(inputValue);
-        }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [storedCoordinates, Cookies]);
+    /* `const {horas, minutos} = calculateTime` is destructuring the `calculateTime` object and
+    assigning the values of its properties `horas` and `minutos` to the variables `horas` and
+    `minutos` respectively. This allows you to access the values of `horas` and `minutos` directly
+    without having to use `calculateTime.horas` and `calculateTime.minutos`. */
+    const {horas, minutos} = calculateTime
+    const longitude = userPosition?.longitude ?? 0;
+    const latitude = userPosition?.latitude ?? 0;
 
 
    const handleOptionChange = (e) => {
@@ -52,79 +45,83 @@ export const FormularioPageInicio = ( { getPosition, userPosition } ) => {
     };
 
     const handleCoordinates = (data) => {
-        setGeocodingResponse(data);
+        //console.log(data)
+        setGeocodingData(data);
+        
     };
 
+    // Handle input changes and show lists
     const handleInputChange = (e) => {
+
         e.preventDefault();
-        //e.target.value
-        if(e.target.value) {
-            setInputValue(e.target.value)
-            setShowList(true);
-        } else if(!e.target.value) {
-            setShowList(false);
-            e.target.value = null;
-        }
+        setInputValue(e.target.value);
+        setShowList({ ...showList, inputValue: true });
         
     };
 
     const handleInputDestinoFinal = (e) => {
-        e.preventDefault();
-
-        if(e.target.value) {
-            setDestinoFinal(e.target.value);
-            setShowList(true);
-        } else {
-            setShowList(false);
-            e.target.value = null
-        }
-
+        e.preventDefault();	
+        setDestinoFinal(e.target.value);
+        setShowList({ ...showList, destinoFinal: true });
+        
+        
     };
 
-    const handleClickInicial = (e) => {
-        e.preventDefault();
-        
-        if (inputValue) {
-            getPosition({ longitude: geocodingResponse[0], latitude:geocodingResponse[1]});
-            
+    const handleClickInicial = async (e) => {
+       e.preventDefault()
+        if (!inputValue.length && !destinoFinal.length) {
+            console.log("Todos los campos son obligatorios");
+            setCategoria("")
+            setInputValue("")
+            setDestinoFinal("")
+            setGeocodingData([])
+            getPosition(userPosition)
+        } 
+
+        if( inputValue ) {
+            const [longitude, latitude] = geocodingData;
+            console.log('Coordenadas desde Formulario:', { longitude, latitude });
+            getPosition({ longitude, latitude });
         } else if(destinoFinal) {
-            getPosition({ longitude: geocodingResponse[0], latitude:geocodingResponse[1]});
-            
+
+            const [longitude, latitude] = geocodingData;
+            console.log('Coordenadas desde Formulario:', { longitude, latitude });
+            getPosition({ longitude, latitude });
         }
         
     };
-    useEffect(() => {
-    
-        if (inputValue && destinoFinal) {
-           setTimeout(() => {
-                setInputValue("")
-                setDestinoFinal("")
-                setShowList(false)
-           }, 5000);
-            
-        }
-
-    }, [inputValue,destinoFinal])
     
 
     const useUserPositionAsStart = (e) => {
         e.preventDefault();
-        if (userPosition) {
-            getPosition({longitude, latitude} );
+        if ( userPosition ) {
+            //console.log({longitude, latitude})
+            getPosition( { longitude:userPosition?.longitude, latitude:userPosition?.latitude }  );
             setInputValue(`${longitude},${latitude}`);
             setShowList(true);
+            return
         } else {
             console.error("No hay datos de ubicación de usuario disponibles.");
         }
     };
 
-    const handlePlace = (e) => {
-        const place = e.target.textContent;
-        if (place) {
-            setShowList(false);
-        }
-    };
+    useEffect(() => {
+        
+        const resetInput = setTimeout(() => {
 
+            setInputValue('');
+            setDestinoFinal("");
+            setCategoria(''); // Reset categoria también
+            
+            document.getElementById("destino-inicial").value = " ";
+            document.getElementById("destino-final").value = " ";
+            document.getElementById("categorias").selectedIndex = 0;
+            setGeocodingData([]);
+        }, 20000);
+
+        return () => clearTimeout(resetInput);
+
+    },[inputValue, destinoFinal, categoria])
 
   return (
     <div>
@@ -133,56 +130,82 @@ export const FormularioPageInicio = ( { getPosition, userPosition } ) => {
                 <div className='flex items-center '>
                     <input  type="text"
                     placeholder='Destino Inicial'
-                    name='DestinoInicial'
+                    id='destino-inicial'
                     className="p-2 border-2 rounded-md w-full"
                     value={inputValue}
                     onChange={handleInputChange}
                     />
-                    <span className='-mx-8 md:text-3xl text-2xl'>{<FaMapMarkerAlt />} </span>
+                    <span className='-mx-12 md:text-3xl text-2xl'>{<FaMapMarkerAlt />} </span>
                 </div>
-                
-                <GetGeocodingMapBox query={inputValue} onSelectPlace={setInputValue} showList={showList} selectPlace={handlePlace} getCoordinates={handleCoordinates}  />
+                {showList.inputValue && (
+                <GetGeocodingMapBox
+                    query={inputValue}
+                    onSelectPlace={(place) => {
+                    setInputValue(place); // Update input with selected place
+                    setShowList({ ...showList, inputValue: false });
+                    }}
+                    showList={showList.inputValue}
+                    getCoordinates={handleCoordinates}
+                    
+                />
+                )}
                 
                 <div className='flex items-center '>
                     <input  type="text"
-                    name='DestinoFinal'
+                    id='destino-final'
                     placeholder='Destino Final' 
                     className="p-2 border-2 rounded-md w-full "
                     value={destinoFinal}
                     onChange={handleInputDestinoFinal}
                     />
-                    <span className='-mx-8 md:text-3xl text-2xl'>{<FaMapMarkerAlt />} </span>
+                    <span className='-mx-12 md:text-3xl text-2xl'>{<FaMapMarkerAlt />} </span>
                 </div>
-
-                <GetGeocodingMapBox query={destinoFinal} onSelectPlace={setDestinoFinal} showList={showList} selectPlace={handlePlace} getCoordinates={handleCoordinates} />
                 
+                {showList.destinoFinal && (
+                <GetGeocodingMapBox
+                    query={destinoFinal}
+                    onSelectPlace={(place) => {
+                    setDestinoFinal(place); // Update input with selected place
+                    setShowList({ ...showList, inputValue: false })}}
+                    showList={showList.destinoFinal}
+                    //selectPlace={handlePlace}
+                    getCoordinates={handleCoordinates}
+                />
+                )}
+
                 <div className="flex items-center ">
                     <div className="relative flex w-full items-center">
                         <input
                             type="text"
                             placeholder='Tipo de Servicio'
+                            id='categorias'
                             className="p-2 border-2 rounded-md w-full cursor-pointer pl-4"
                             onClick={toggleOptions}
                             readOnly
                             value={categoria}
                             onChange={handleClickCategaria}
                         />
-                    <span className='-mx-12 text-2xl md:text-3xl '><FaBus /></span>
-                    {showOptions && (
-                    <select
-                        multiple={true}
-                        className="absolute top-10 left-0 z-10 p-2 border-2 rounded-md w-full bg-white"
-                        value={selectedOptions}
-                        onChange={handleOptionChange}
-                        onBlur={() => setShowOptions(false)}
-                        onClick={handleClickCategaria}
-                    >
-                    {Categorias.map((categoria) => (
-                    <option key={categoria.id} value={categoria.nombreCategoria}>{categoria.nombreCategoria}</option>
-                    ))}
-                    </select>
-                    )}
-                 </div>
+                        <span className='-mx-12 text-2xl md:text-3xl '><FaBus /></span>
+                        {showOptions && (
+                        <select
+                            multiple={true}
+                            className="absolute top-10 left-0 z-10 p-2 border-2 rounded-md w-full bg-white"
+                            value={selectedOptions}
+                            onChange={handleOptionChange}
+                            onBlur={() => setShowOptions(false)}
+                            onClick={handleClickCategaria}
+                        >
+                        {Categorias.map((categoria) => (
+                        <option key={categoria.id} value={categoria.nombreCategoria}>{categoria.nombreCategoria}</option>
+                        ))}
+                        </select>
+                        )}
+                    </div>
+                </div>
+                <div className='bg-white flex items-center text-center rounded-md'>
+                    <div className='p-2 border-2 w-full'>
+                        <p className='text-sm md:text-lg text-gray-400 font-semibold'>{horas} hora    {minutos} minutos  {calculateDistance} kms </p>
+                    </div>
                 </div>
             </div>
  
@@ -190,24 +213,27 @@ export const FormularioPageInicio = ( { getPosition, userPosition } ) => {
             MapBox API based on the `inputValue` provided. */ }
 
             <AddressCurrentPosition 
-                longitude={ longitude } 
-                latitude={ latitude } 
-                getAddress={(data) => setGeocodingResponse(data)} 
+                longitude={ userPosition.longitude } 
+                latitude={ userPosition.latitude } 
+                getAddress={(data) => setGeocodingData(data)} 
             />
 
-            <div className=' absolute w-48 mt-3 -right-9 '>
+            <div className='absolute mt-3 '>
                 <div className='flex justify-between items-center flex-col gap-1'>
                     <button 
-                    onClick={handleClickInicial} 
-                    type="submit" className="py-3 mr-7 px-2 border-2 rounded-md poi bg-red-500  text-gray-200 relative" >Click Destino Inicial</button>
-                    {/* <button 
-                    onClick={handleClickFinal} 
-                    type="submit" className="py-3 mr-7 px-2 border-2 rounded-md poi bg-green-400  text-gray-200 relative" >Click Destino Final</button> */}
-                    
-                    <button onClick={useUserPositionAsStart}  type="submit" placeholder='Bucar' className="py-3 mr-9 px-2 border-2 rounded-md poi bg-azul-oscuro text-gray-200 font-semibold w-44 relative" >Usar tu ubicacion </button>
-                    <span className='-mx-8 text-xl'></span>
+                        onClick={handleClickInicial} 
+                        type="submit" className="py-3 px-7 border-2 border-white rounded-md poi bg-verde-menta  text-gray-200 relative" ><span className='text-xl'>{<FaPlusCircle  />}</span> 
+                    </button>
+
+                    <button 
+                        onClick={useUserPositionAsStart} 
+                        type="submit" className="py-3 px-7 border-2 border-white rounded-md poi bg-red-500  text-gray-200 relative" > 
+                        <span className='text-xl' >{<FaLocationArrow  />}
+                        </span> 
+                    </button>
                 </div> 
             </div>
+            
         </form>
 
     </div>
