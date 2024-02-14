@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom';
 const TitleAndDescription = () => {
   return (
     <>
-        <h1 className='m-auto w-6/12 uppercase text-2xl md:text-4xl font-sem mt-4 text-center'>
+        <h1 className='m-auto w-6/12 uppercase text-2xl md:text-4xl font-sem my-8 text-center'>
         <span className='text-blue-900 font-roboto-sbold-900'>ViajeSeguro Tu sitio online</span> { " " }
         de transporte público Viaja a Tú destino Ideal </h1>
 
@@ -44,7 +44,7 @@ const TitleAndDescription = () => {
           <div className='flex flex-col lg:flex-row justify-center lg:justify-evenly lg:items-center md:gap-2 md:pb-2 lg:w-9/12'>
             <p className='text-xl font-semibold md:px-11 px-2'>Reserva ahora tu transporte público terrestre y disfruta de un viaje cómodo y seguro.</p>
 
-            <Link to={"/reservas"} className='w-3/4 lg:w-44 m-auto px-3 py-3 uppercase bg-color-btn-reservar text-zinc-200 rounded-lg text-center mb-3 mt-3' type="button">Solicita Tu Reserva</Link>
+            <Link to={"/reservas"} className='w-3/4 lg:w-2/4 m-auto px-3 py-3 uppercase bg-color-btn-reservar text-zinc-200 rounded-lg text-center mb-3 mt-3' type="button">Solicita Tu Reserva</Link>
           </div>
         </section>
     </>

@@ -21,14 +21,14 @@ const Footer = () => {
                 </Link>
                 <Link to={"/reservas"} type="button" className='bg-azul-oscuro text-neutral-200 md:mt-0 px-7 py-2 text-center md:ml-10 rounded-lg'>Reserva Ahora</Link>
             </div>
-            <div className=' flex flex-row gap-2 md:flex-col'>
-                <Link to={"/"} className='text-lg font-bold'>Inicio</Link>
-                <Link to={"/nuestros-servicios"} className='text-lg font-bold'>Nuestros Servicios</Link>
-                <Link to={"/sobre-nosotros"} className='text-lg font-bold'>Sobre Nosotros</Link>
-                <Link to={"/contactanos"} className='text-lg font-bold'>Contáctanos</Link>
+            <div className='grid grid-cols-2 lg:grid-cols-2 md:grid-cols-1 mb-2 gap-2 text-zinc-900'>
+                <Link to={"/"} className='text-lg font-bold mr-2 hover:bg-red-400 text-center bg-red-500 border-red-400 py-1 rounded-lg'>Inicio</Link>
+                <Link to={"/nuestros-servicios"} className='text-lg font-bold mr-2 hover:bg-red-400 text-center bg-red-500 border-red-400 py-1 rounded-lg'>Nuestros Servicios</Link>
+                <Link to={"/sobre-nosotros"} className='text-lg font-bold mr-2 hover:bg-red-400 text-center bg-red-500 border-red-400 py-1 rounded-lg'>Sobre Nosotros</Link>
+                <Link to={"/contactanos"} className='text-lg font-bold hover:bg-red-400 text-center bg-red-500 border-red-400 py-1 rounded-lg'>Contáctanos</Link>
             </div>
             <div className='text-center mt-2 mb-2'>
-                <h2 className='text-xl font-semibold'>Contáctanos</h2>
+                <h2 className='text-xl font-semibold mb-2'>Contáctanos</h2>
                 <span className='flex gap-2 text-lg mb-2'>{<FaLocationDot className='text-xl' />}Av. El Dorado # 103-9,Fontibon</span>
                 <span className='flex gap-2 text-lg mb-2'> {<FaEnvelope className='text-xl'/>} viajeseguro@viajeseguro.com </span>
                 <span className='flex gap-2 text-lg mb-2' >{<FaSquarePhone className='text-xl'/>} +57 3219041397 </span>
