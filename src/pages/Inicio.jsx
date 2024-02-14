@@ -1,13 +1,15 @@
 import mapboxgl from 'mapbox-gl';
 import axios from 'axios';
-import { FaRecycle } from "react-icons/fa6";
+import { FaArrowsRotate  } from "react-icons/fa6";
 import getTimeDistance from '../config/getTimeDistance';
 import  { FormularioPageInicio }  from '../components/FormularioPageInicio';
 import Navbar from '../components/Navbar';
 import { useEffect, useState } from 'react';
 import SearchMapBox from '../components/SearchMapBox';
 import ModalPageInicio from '../components/ModalPageInicio';
-
+import Footer from '../components/Footer';
+import TitleAndDescription from '../components/TitleAndDescription';
+import NuestrosVehiculos from '../components/NuestrosVehiculos';
 
 mapboxgl.accessToken = import.meta.env.VITE_ACCESS_TOKEN_MAPBOX;
 
@@ -108,7 +110,7 @@ const Inicio = (  ) => {
 
         <button 
             onClick={handleReset} 
-            type="button" className="absolute py-3 px-7 border-2 rounded-md poi bg-amarillo-mostaza text-gray-200 mt-[7rem]" ><span className='text-xl'> {<FaRecycle />} </span>
+            type="button" className="absolute py-3 px-7 border-2 rounded-md poi bg-amarillo-mostaza text-gray-200 mt-[7rem]" ><span className='text-xl'> {<FaArrowsRotate  />} </span>
         </button>
         </section>
         <div className='w-full h-[30rem] relative z-10 -mt-7'>
@@ -118,7 +120,9 @@ const Inicio = (  ) => {
             />
         </div>
       </main>
-      
+      <TitleAndDescription />
+      <NuestrosVehiculos />
+      <Footer />
     </>
   )
 }

@@ -5,7 +5,7 @@ import { FaMapMarkerAlt, FaBus, FaPlusCircle } from 'react-icons/fa';
 import { FaLocationArrow } from "react-icons/fa6";
 import GetGeocodingMapBox from '../api/GetGeocodingMapBox';
 import AddressCurrentPosition from '../api/AddressCurrentPosition';
-import Categorias  from '../api/Categorias';
+import Categorias from '../config/Categorias';
 
 export const FormularioPageInicio = ( { getPosition, userPosition, calculateTime, calculateDistance } ) => {
 

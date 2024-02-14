@@ -22,7 +22,7 @@ export default {
         'roboto-light-300': ['Roboto', 'sans-serif', '300'],
         'roboto-normal-400': ['Roboto', 'sans-serif', '400'],
         'roboto-medium-500': ['Roboto', 'sans-serif', '500'],
-        'roboto-bold-700': ['Roboto', 'sans-serif', '700'],
+        '               ': ['Roboto', 'sans-serif', '700'],
         'roboto-sbold-900': ['Roboto', 'sans-serif', '900'],
       }
     },

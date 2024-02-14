@@ -19,7 +19,7 @@ const navLinks = [
 const navLinksSections = [
     { title: 'Inicio',link: '/',color: "Inicio" },
     { title: 'Nuestros Servicios',link: '/nuestros-servicios', color: "Servicios" },
-    { title: 'Nosotros', link: '/sobre-nosotros', color: "Nosotros" },
+    { title: 'Sobre Nosotros', link: '/sobre-nosotros', color: "Nosotros" },
     { title: 'Contáctanos', link: '/contactanos', color: "Contactanos" },
     { title: 'Solicita tu Reserva', link: '/reservas', color: "Reservas" },
   ]
