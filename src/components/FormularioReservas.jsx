@@ -34,9 +34,10 @@ const FormularioReservas = () => {
                 }
             }
             try {
-                const response = await clienteAxios.get("/vehiculos/todosVehiculos", config);
-                //console.log(response.data);
-                setVehiculos(response.data)
+                const response = await clienteAxios.get("/categorias/encontrarCategorias", config);
+                console.log(response);
+                setVehiculos(response.data.categoria);
+                console.log(vehiculos);
                 
             } catch (error) {
                 console.log(error) 
@@ -114,7 +115,7 @@ const FormularioReservas = () => {
                     <option value="">Seleccione el tipo de vehiculo</option>
                     {vehiculos.map((vehiculo) => (
                         <option key={vehiculo._id} value={vehiculo._id}>
-                            {vehiculo.categoria.nombreCategoria}
+                            {vehiculo.nombreCategoria}
                         </option>
                     ))}
                 </select>
@@ -180,17 +181,6 @@ const FormularioReservas = () => {
                 placeholder="Ingrese su destino final" 
                 />
             </div>
-            {/* <div className="mb-3">
-                <label className="text-gray-700 uppercase font-bold text-sm" htmlFor="vehiculo">Estado del vehiculo</label>
-
-                <select id="vehiculo" className="border w-full p-2 mt-2 placeholder-gray-400 rounded-md">
-                    <option value="disponible">Disponivilidad del vehiculo</option>
-                    <option value="disponible">Disponible</option>
-                    <option value="Reservado">Reservado</option>
-                    <option value="En Mantenimiento">En Mantenimiento</option>
-                    <option value="React">Van 19 Pasajeros</option>
-                </select>
-            </div> */}
 
             <button type="submit" className="text-center w-full bg-color-primario-nav hover:bg-azul-oscuro text-white py-3 mt-2 uppercase rounded-md font-bold text-sm">Crear Reserva</button>
         </form>
@@ -198,4 +188,4 @@ const FormularioReservas = () => {
   )
 }
 
-export default FormularioReservas
+export default FormularioReservas;

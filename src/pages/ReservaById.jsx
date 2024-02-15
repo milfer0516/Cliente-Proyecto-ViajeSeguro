@@ -31,4 +31,4 @@ const ReservaById = () => {
     )
 }
 
-export default ReservaById
+export default ReservaById;

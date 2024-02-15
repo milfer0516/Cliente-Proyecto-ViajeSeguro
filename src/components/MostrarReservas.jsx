@@ -3,7 +3,6 @@ import { Link } from 'react-router-dom';
 
 const MostrarReservas = ( { reserva } ) => {
 
-    // eslint-disable-next-line no-unused-vars
     const { _id, destinoInicial, destinoFinal, horaReserva, fechaInicio } = reserva
 
     const fechaFormateada = new Date(fechaInicio);
@@ -38,7 +37,7 @@ const MostrarReservas = ( { reserva } ) => {
         
 
         <Link to={`reserva-by-id/${_id}`}
-        className='text-gray-600 hover:text-gray-700 uppercase font-bold text-sm'>
+        className='text-gray-600 hover:text-gray-700 uppercase font-bold text-sm bg-color-btn-reservar h-5'>
             Ver Rerserva
         </Link>
     </div>

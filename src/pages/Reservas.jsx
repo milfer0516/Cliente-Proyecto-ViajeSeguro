@@ -21,7 +21,7 @@ const Reservas = () => {
   return (
 
     <> 
-      <h1 className="text-4xl font-bold">Reservas</h1>
+      <h1 className="text-4xl font-bold">Tus Reservas {authUser.nombre}</h1>
       <div className=" bg-white mt-10 rounded-lg ">
         {reservas.length > 0 ? (
           <section>

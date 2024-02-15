@@ -82,8 +82,7 @@ export const ReservasContextProvider = ( { children } ) => {
 
 
         const { data } = await clienteAxios.post('/reservas/crearReserva', reservas, config); 
-        console.log(data);
-
+        //console.log(data);
         setReservas(data);
         
         const timer = setTimeout(() => {
