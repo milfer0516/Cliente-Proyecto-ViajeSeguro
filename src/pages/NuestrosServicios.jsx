@@ -3,7 +3,7 @@ import Footer from '../components/Footer';
 import imageTuristico from '../images/Images-Servicios/catedral-de-sal.jpg'
 import imageCorporativo from '../images/Images-Servicios/transporte-ejecutivos.jpg';
 import imageAeropuerto from '../images/Images-Servicios/transporte-aeropuerto.jpg'
-import imageUrbano from '../images/Images-Servicios/Transporte público especial.jpg'
+import imageUrbano from '../images/Images-Servicios/Transporte público especial.jpg';
 
 const NuestrosServicios = () => {
 
