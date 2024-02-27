@@ -26,16 +26,13 @@ import { ReservasContextProvider } from './context/ReservasProvider.jsx';
 
 function App() {
 
-
   return (
    
     <BrowserRouter >
-      
       <AuthContextProvider>
         <ReservasContextProvider> 
           <Routes>
-            {/* Auths Routes  */}  
-            
+            {/* Auths Routes  */}    
             <Route path='/authLayout' element={ <AuthLayout /> } >       
               <Route path='iniciar-sesion' element={<IniciarSesion />} />
               <Route path='registrarse' element={<Registarse /> } />
