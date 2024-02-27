@@ -3,7 +3,6 @@ import { Link } from "react-router-dom"
 import clienteAxios from '../config/clienteAxios'
 import Alerta from '../components/Alerta'
 
-
 const OlvidePassword = () => {
 
   const [correo, setCorreo] = useState('')

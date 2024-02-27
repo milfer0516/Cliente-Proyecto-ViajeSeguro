@@ -52,7 +52,7 @@ const Inicio = (  ) => {
             const { horas, minutos }  = getTimeDistance(timeInSecounds);
             //console.log(`Duracion: ${horas}:${minutos}`)
             setDuracion({horas, minutos})
-            console.log(distance)
+            //console.log(distance)
             setDistancia(distance)
         } else {
           console.log("No se encontraron rutas");

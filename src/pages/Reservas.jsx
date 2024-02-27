@@ -16,12 +16,11 @@ const Reservas = () => {
 
   },[reservas, setReservas]);
   
-
-  const handleDeleteReserva = async (id) => {
+  /* const handleDeleteReserva = async (id) => {
     // ... código para eliminar la reserva
     const updatedReservas = await reservas.filter((reserva) => reserva._id !== id);
     setReservas(updatedReservas);
-  };
+  }; */
 
   return (
 
@@ -38,7 +37,7 @@ const Reservas = () => {
                 <MostrarReservas 
                   key={reserva._id} 
                   reserva={reserva}
-                  onDeleteReserva={handleDeleteReserva}
+                  
                 />
               ))}
             </div>

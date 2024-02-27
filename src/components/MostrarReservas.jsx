@@ -2,7 +2,7 @@ import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
 import { useReservas } from '../hooks/useReservas';
 
-const MostrarReservas = ( { reserva, onDeleteReserva } ) => {
+const MostrarReservas = ( { reserva } ) => {
 
     const { _id, fechaInicio, horaReserva, destinoInicial, destinoFinal, } = reserva;
     //console.log(reserva)
@@ -46,8 +46,8 @@ const MostrarReservas = ( { reserva, onDeleteReserva } ) => {
             </Link>
             <Link 
             onClick={() => handleModalUpdateReserva(reserva)}
-            className='text-zinc-200 hover:text-gray-400 uppercase font-bold text-sm bg-amarillo-mostaza text-center mx-auto w-full  py-3 my-2 lg:w-full px-3 rounded-lg'>
-                Editar Rerserva
+            className='text-zinc-200 hover:text-gray-400 uppercase font-bold text-sm bg-azul-oscuro text-center mx-auto w-full  py-3 my-2 lg:w-full px-3 rounded-lg'>
+                Confirmar Rerserva
             </Link>
             <Link 
             onClick={() => handleModalUpdateReserva(reserva)}

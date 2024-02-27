@@ -1,5 +1,6 @@
 import { Link } from 'react-router-dom';
 import { FaTimes, FaBars } from "react-icons/fa";
+import Swal from 'sweetalert2';
 import Logo from '../assets/images/Logo-ViajeSeguro.png'
 import { useState } from 'react'
 
@@ -39,6 +40,17 @@ const Navbar = () => {
   const handleMenu = () => {
     //console.log(menuOpen)
     setMenuOpen((prev) => !prev);
+  }
+
+  const handleShowAlertInfo = () => {
+
+      console.log('Click boton ver detalles')
+      Swal.fire({
+          icon: 'info',
+          title: 'Información',
+          html: `<h3>Para solicitar una reserva necesitas registrarte en nuestro sitio Web</h3> <b>ViajeAeguro</b>`,
+          confirmButtonText: 'Aceptar'
+      })
   }
 
 
@@ -120,7 +132,11 @@ const Navbar = () => {
             )}
           </div>
           <div className='text-white md:mt-12 gap-6 flex flex-col md:flex-row justify-between items-center content-center mx-4 '>
-            <Link to={"/reservas"} className='bg-color-btn-reservar h-12 text-center md:py-3 px-5 rounded-md md:mr-7 font-semibold mb-4 md:mb-0 flex items-center'>Reserva Ahora</Link>
+            <Link 
+            to={"/reservas"}
+            onClick={handleShowAlertInfo}
+            className='bg-color-btn-reservar h-12 text-center md:py-3 px-5 rounded-md md:mr-7 font-semibold mb-4 md:mb-0 flex items-center'
+            >Reserva Ahora</Link>
             <div className='md:px-3 text-center md:text-left'>
               <h1 className='text-3xl md:text-4xl font-bold mb-2'>ViajeSeguro</h1>
               <h3 className='text-lg md:text-2xl font-medium mb-2'>Viajar es vivir,</h3>

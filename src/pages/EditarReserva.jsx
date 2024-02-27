@@ -15,7 +15,7 @@ const EditarReserva = () => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []); // Solo utiliza id y obtenerReservaById como dependencias
 
-    const { categoria, destinoFinal, horaReserva, fechaInicio } = reservaById
+    //const { categoria, destinoFinal, horaReserva, fechaInicio } = reservaById
 
     if(loadind) {
         return (

@@ -3,6 +3,7 @@ import { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import { FaMapMarkerAlt, FaBus, FaPlusCircle } from 'react-icons/fa';
 import { FaLocationArrow } from "react-icons/fa6";
+import Swal from 'sweetalert2';
 import GetGeocodingMapBox from '../api/GetGeocodingMapBox';
 import AddressCurrentPosition from '../api/AddressCurrentPosition';
 import Categorias from '../config/Categorias';
@@ -11,7 +12,7 @@ export const FormularioPageInicio = ( { getPosition, userPosition, calculateTime
 
     const [inputValue, setInputValue] = useState('');
     const [destinoFinal, setDestinoFinal] = useState('');
-    const [categoria, setCategoria] = useState('');
+    const [categoria, setCategoria] = useState([]);
      const [showList, setShowList] = useState({ inputValue: false, destinoFinal: false }); 
     const [showOptions, setShowOptions] = useState(false);
     const [selectedOptions, setSelectedOptions] = useState([]);
@@ -52,25 +53,21 @@ export const FormularioPageInicio = ( { getPosition, userPosition, calculateTime
 
     // Handle input changes and show lists
     const handleInputChange = (e) => {
-
         e.preventDefault();
         setInputValue(e.target.value);
         setShowList({ ...showList, inputValue: true });
-        
     };
 
     const handleInputDestinoFinal = (e) => {
         e.preventDefault();	
         setDestinoFinal(e.target.value);
         setShowList({ ...showList, destinoFinal: true });
-        
-        
     };
 
     const handleClickInicial = async (e) => {
        e.preventDefault()
         if (!inputValue.length && !destinoFinal.length) {
-            console.log("Todos los campos son obligatorios");
+            //console.log("Todos los campos son obligatorios");
             setCategoria("")
             setInputValue("")
             setDestinoFinal("")
@@ -80,12 +77,12 @@ export const FormularioPageInicio = ( { getPosition, userPosition, calculateTime
 
         if( inputValue ) {
             const [longitude, latitude] = geocodingData;
-            console.log('Coordenadas desde Formulario:', { longitude, latitude });
+            //console.log('Coordenadas desde Formulario:', { longitude, latitude });
             getPosition({ longitude, latitude });
         } else if(destinoFinal) {
 
             const [longitude, latitude] = geocodingData;
-            console.log('Coordenadas desde Formulario:', { longitude, latitude });
+            //console.log('Coordenadas desde Formulario:', { longitude, latitude });
             getPosition({ longitude, latitude });
         }
         
@@ -121,7 +118,37 @@ export const FormularioPageInicio = ( { getPosition, userPosition, calculateTime
 
         return () => clearTimeout(resetInput);
 
-    },[inputValue, destinoFinal, categoria])
+    },[inputValue, destinoFinal, categoria]);
+
+    useEffect(() => {
+        
+         if(categoria) {
+             Categorias.map(findCategoria => {
+                if(findCategoria.nombreCategoria === categoria) {
+                    setCategoria(findCategoria.precio)
+                    return 
+                }   
+            } );
+             
+         } 
+    },[categoria])
+
+    const handleShowAlertInfo = () => {
+        
+    const selectedCategory = selectedOptions.length > 0 ? selectedOptions[0] : "";
+    const precio = selectedCategory ? Categorias.find((categoria) => categoria.nombreCategoria === selectedCategory).precio : "Para más detalles debes seleccionar un Destino Inicial, un Destino Final y un Servicio ";
+        //horas, minutos
+    const totalPrecio = (precio * calculateDistance);
+        Swal.fire({
+            icon: 'info',
+            title: 'Información Vista Previa de Precios',
+            html: `Detalles servicio precio:<b>${totalPrecio}</b> 
+            Tipo de servicio: ${selectedCategory} Duracion <b>Horas:${horas} Minutos:${minutos}</b> distancia recorrida ${calculateDistance}kms`,
+            confirmButtonText: 'Aceptar'
+        })
+        
+    }
+
 
   return (
     <div>
@@ -202,9 +229,13 @@ export const FormularioPageInicio = ( { getPosition, userPosition, calculateTime
                         )}
                     </div>
                 </div>
-                <div className='bg-white flex items-center text-center rounded-md'>
-                    <div className='p-2 border-2 w-full'>
-                        <p className='text-sm md:text-lg text-gray-400 font-semibold'>{horas} hora    {minutos} minutos  {calculateDistance} kms </p>
+                <div className=' flex items-center text-center rounded-lg justify-center'>
+                    <div className='p-2 border-2 w-full rounded-lg md:w-3/4 bg-color-btn-reservar hover:bg-red-400 transition-all'>
+                        {/* <p className='text-sm md:text-lg text-gray-400 font-semibold'>{horas} hora    {minutos} minutos  {calculateDistance} kms </p> */}
+                        <button 
+                        type="button" 
+                        onClick={handleShowAlertInfo}
+                        className='uppercase text-gray-600 font-semibold'>Ver Detalles</button>
                     </div>
                 </div>
             </div>

@@ -44,7 +44,7 @@ const GetGeocodingMapBox = ({ query, onSelectPlace, showList, getCoordinates }) 
 
         if(geocodingData) {
 
-            console.log(geocodingData[0])
+            //console.log(geocodingData[0])
             await getCoordinates(geocodingData[0].geometry.coordinates);
 
         } else if(!geocodingData) {

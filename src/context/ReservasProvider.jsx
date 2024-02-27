@@ -66,6 +66,13 @@ export const ReservasContextProvider = ( { children } ) => {
     } else {
       await newReservation(reserva);
     }
+    
+    const timer = setTimeout(() => {
+          setAlerta({});
+          navigate("/reservas")
+        }, 5000);
+
+    return () => clearTimeout(timer)
      
   };
 
@@ -212,13 +219,17 @@ export const ReservasContextProvider = ( { children } ) => {
         };
 
         const { data } = await clienteAxios.delete(`reservas/eliminarRerserva/${id}`, config); 
-        console.log(data)
+        //console.log(data)
         setAlerta({
           msg: data.message,
           error: false
         });
         
-        navigate("/reservas")
+        const timer = setTimeout(() => {
+          navigate("/reservas")
+        }, 5000);
+
+        return () => clearTimeout(timer)
         
       } catch (error) {
         console.log(error)
