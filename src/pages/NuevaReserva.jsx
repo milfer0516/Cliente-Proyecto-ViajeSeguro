@@ -1,4 +1,4 @@
-import FormularioReservas from "../components/FormularioReservas"
+import FormularioReservas from "../components/FormularioReservas";
 
 const NuevaReserva = () => {
   return (

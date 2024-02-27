@@ -1,14 +1,35 @@
 
-import { Outlet, Navigate, } from 'react-router-dom'
+import { Outlet, Navigate, useNavigate } from 'react-router-dom'
 import useAuth from '../hooks/useAuth'
-//import { useEffect } from 'react';
+import { useEffect } from 'react';
 import Sidebar from '../components/Sidebar';
 import Header from '../components/Header';
+import { jwtDecode } from 'jwt-decode';
 
 
 const RutaProtegida = () => {
 
   const { authUser, loading } = useAuth();
+  const navigate = useNavigate()
+
+  useEffect(() => {
+
+    const token = localStorage.getItem("token")
+
+    if(!token) {
+      return navigate("/authLayout/iniciar-sesion")
+    }
+
+    const decodeToken = jwtDecode(token);
+    const { exp } = decodeToken;
+    const tokenExperation = exp * 1000;
+    const currentTime = new Date().getTime();
+
+    if(tokenExperation < currentTime ) {
+      return navigate("/authLayout/iniciar-sesion")
+    }
+
+  },[navigate])
 
   if(loading) return "Cargando......";
   

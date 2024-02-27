@@ -4,7 +4,6 @@
 
 import mapboxgl from 'mapbox-gl';
 import PropTypes from 'prop-types';
-import 'mapbox-gl/dist/mapbox-gl.css';
 //import { FaMapMarkerAlt } from 'react-icons/fa';
 import { useState, useEffect, useRef } from 'react';
 

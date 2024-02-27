@@ -56,8 +56,9 @@ const Navbar = () => {
             <div className=" text-white flex justify-between items-center">
               {navLinks.map((link, index) => (
                 <Link key={index} to={link.link} className={`hover:bg-azul-oscuro bg-blue-500 opacity-90 transition-all duration-500 content-center border-2 text-center py-2 md:py-3 px-4 md:px-2 ml-2 rounded-lg sm:w-28 text-gray-200 md:text-lg text-sm ${activeButton === link.color ? 'bg-color-primario-nav  text-white font-semibold hover:border-solid': 'rounded-lg text-white font-semibold py-3'}`
-                } onClick={() => handleButtonClick( link.color)}>
-                  {link.title}</Link>
+                } 
+                onClick={(link) => handleButtonClick( link.color)}>
+                {link.title}</Link>
               ))}
             </div>    
           </div>

@@ -1,9 +1,13 @@
 import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
+import { useReservas } from '../hooks/useReservas';
 
-const MostrarReservas = ( { reserva } ) => {
+const MostrarReservas = ( { reserva, onDeleteReserva } ) => {
 
-    const { _id, destinoInicial, destinoFinal, horaReserva, fechaInicio } = reserva
+    const { _id, fechaInicio, horaReserva, destinoInicial, destinoFinal, } = reserva;
+    //console.log(reserva)
+
+    const { handleModalUpdateReserva } = useReservas();
 
     const fechaFormateada = new Date(fechaInicio);
     const dia = fechaFormateada.getDate() + 1;
@@ -12,7 +16,7 @@ const MostrarReservas = ( { reserva } ) => {
 
     //console.log(`${dia}/${mes}/${año}`);
   return (
-    <div className='border-b p-5 flex'>
+    <div className='border-b p-5 flex flex-col lg:flex-row'>
         
         <div className='flex-1'>
             <p className='text-lg font-roboto-bold-700 text-gray-700'>
@@ -34,17 +38,29 @@ const MostrarReservas = ( { reserva } ) => {
             </p>
             
         </div>
-        
 
-        <Link to={`reserva-by-id/${_id}`}
-        className='text-gray-600 hover:text-gray-700 uppercase font-bold text-sm bg-color-btn-reservar h-5'>
-            Ver Rerserva
-        </Link>
+        <div className='gap-2 flex flex-col lg:flex-col my-auto mr-4 pl-3 items-center'>
+            <Link to={`reserva-by-id/${_id}`}
+            className='text-zinc-200 hover:text-gray-400 uppercase font-bold text-sm bg-verde-menta mx-auto w-full text-center lg:my-2 py-3 lg:w-full px-3 rounded-lg'>
+                Ver Rerserva
+            </Link>
+            <Link 
+            onClick={() => handleModalUpdateReserva(reserva)}
+            className='text-zinc-200 hover:text-gray-400 uppercase font-bold text-sm bg-amarillo-mostaza text-center mx-auto w-full  py-3 my-2 lg:w-full px-3 rounded-lg'>
+                Editar Rerserva
+            </Link>
+            <Link 
+            onClick={() => handleModalUpdateReserva(reserva)}
+            className='text-zinc-200 hover:text-gray-400 uppercase font-bold text-sm bg-color-btn-reservar text-center mx-auto w-full py-3 lg:w-full px-3 rounded-lg'>
+                Eliminar Rerserva
+            </Link>
+        </div>
+
     </div>
   )
 }
 
-export default MostrarReservas
+export default MostrarReservas;
 
 MostrarReservas.propTypes = {
     reserva: PropTypes.object

@@ -7,7 +7,6 @@ const Reservas = () => {
 
   const { reservas, setReservas } = useReservas()
   const { authUser } = useAuth()
-
   
   useEffect(() => {
 
@@ -15,24 +14,31 @@ const Reservas = () => {
       setReservas(reservas)
     }
 
-  },[reservas, setReservas])
+  },[reservas, setReservas]);
   
+
+  const handleDeleteReserva = async (id) => {
+    // ... código para eliminar la reserva
+    const updatedReservas = await reservas.filter((reserva) => reserva._id !== id);
+    setReservas(updatedReservas);
+  };
 
   return (
 
     <> 
       <h1 className="text-4xl font-bold">Tus Reservas {authUser.nombre}</h1>
       <div className=" bg-white mt-10 rounded-lg ">
-        {reservas.length > 0 ? (
+        {reservas.length >= 1 ? (
           <section>
             <div className="flex justify-end text-sm">
               <h3 className="text-center text-gray-600 pt-3 pb-1 px-3 border-b"><span className="font-bold">{authUser.nombre}</span> Haz solicitado en total <span className="font-bold">{reservas.length} Reservas</span></h3>
             </div>
             <div>
-              {reservas.map( reserva => (
+              {reservas.map( ( reserva ) => (
                 <MostrarReservas 
                   key={reserva._id} 
                   reserva={reserva}
+                  onDeleteReserva={handleDeleteReserva}
                 />
               ))}
             </div>

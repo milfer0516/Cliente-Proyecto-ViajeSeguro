@@ -11,11 +11,11 @@ const URL_API_LOGIN = `/usuarios/login`;
         const { data } = await clienteAxios.post(URL_API_REGISTER, {
             nombre, correo, password, telefono });
 
-        console.log(data)
+        //console.log(data)
         return { success:true, message:data.message};
 
     } catch (error) {
-        console.log(error);
+        //console.log(error);
         if (error.response) {
         // El servidor respondió con un código de error
         //console.log(error.response.data.errors);

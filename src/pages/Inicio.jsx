@@ -23,11 +23,11 @@ const Inicio = (  ) => {
    * The function `getPosition` updates the select position with a new value.
    */
   const getPosition = (positionData = {}) => {
-  const { longitude = 0, latitude = 0 } = positionData;
+    const { longitude = 0, latitude = 0 } = positionData;
 
-  setAddCoordinates([...addCoordinates, { longitude, latitude }]);
-  setUserPosition({ longitude, latitude });
-};
+    setAddCoordinates([...addCoordinates, { longitude, latitude }]);
+    setUserPosition({ longitude, latitude });
+  };
 
 
   const calculateDistanceAndTime = async (  ) => {
@@ -36,8 +36,8 @@ const Inicio = (  ) => {
     if( addCoordinates.length >= 2 && userPosition ) {
         //console.log("Coordenadas desde Inicio: ",addCoordinates);   
         const [ coords1, coords2 ] = addCoordinates
-        console.log("Coordenadas desde Inicio1: ",coords1)
-        console.log("Coordenadas desde Inicio2: ",coords2)
+        /* console.log("Coordenadas desde Inicio1: ",coords1)
+        console.log("Coordenadas desde Inicio2: ",coords2) */
       try {
         const { data } = await axios.get(`https://api.mapbox.com/directions/v5/mapbox/driving/${coords1.longitude},${coords1.latitude};${coords2.longitude},${coords2.latitude}`, {
           params: {
@@ -47,10 +47,10 @@ const Inicio = (  ) => {
 
         if (await data.routes[0].distance >=2) {
           //console.log( data );
-            const distance = Math.ceil(data.routes[0].distance / 1000).toFixed(2);
+            const distance = Number(Math.ceil(data.routes[0].distance / 1000).toFixed(2));
             const timeInSecounds = data.routes[0].duration
             const { horas, minutos }  = getTimeDistance(timeInSecounds);
-            console.log(`Duracion: ${horas}:${minutos}`)
+            //console.log(`Duracion: ${horas}:${minutos}`)
             setDuracion({horas, minutos})
             console.log(distance)
             setDistancia(distance)
@@ -70,14 +70,11 @@ const Inicio = (  ) => {
       setAddCoordinates([]);
       setDistancia(null);
       setDuracion({ horas: 0, minutos: 0 });
-      //setUserPosition({ longitude: 0, latitude: 0 });
-      // Consider resetting userPosition if you want a truly fresh start
-      // 
 
       // Use console logs to verify reset behavior
-      console.log("addCoordinates after reset:", addCoordinates);
+      /* console.log("addCoordinates after reset:", addCoordinates);
       console.log("distancia after reset:", distancia);
-      console.log("duracion after reset:", duracion);
+      console.log("duracion after reset:", duracion); */
   };
 
   useEffect(() => {
@@ -86,7 +83,7 @@ const Inicio = (  ) => {
     storage whenever it changes. */
     calculateDistanceAndTime();
     if(!userPosition && !addCoordinates) {
-      console.log("Se booraron con exito los coordenadas", addCoordinates);
+      //console.log("Se booraron con exito los coordenadas", addCoordinates);
       handleReset();
 
     }

@@ -1,4 +1,5 @@
-import { BrowserRouter, Route, Routes } from 'react-router-dom'
+import { BrowserRouter, Route, Routes } from 'react-router-dom';
+
 import Inicio from './pages/Inicio'
 import NuestroServicios from './pages/NuestrosServicios'
 import Contactanos from './pages/Contactanos'
@@ -11,25 +12,30 @@ import OlvidePassword from './pages/OlvidePassword'
 import IniciarSesion from './pages/IniciarSesion'
 import ConfirmarCuenta from './pages/ConfirmarCuenta';
 import NuevaReserva from './pages/NuevaReserva';
+
 /* Rutas Protegidas */
 import AuthLayout from './layouts/AuthLayout'
 import RutaProtegida from './layouts/RutaProtegida'
+import ReservaById from './pages/ReservaById.jsx'
+import EditarReserva from './pages/EditarReserva.jsx';
 
 /* Context */
 import { AuthContextProvider } from './context/AuthContext.jsx';
 import { ReservasContextProvider } from './context/ReservasProvider.jsx';
-import ReservaById from './pages/ReservaById.jsx'
 
 
 function App() {
 
+
   return (
    
     <BrowserRouter >
+      
       <AuthContextProvider>
         <ReservasContextProvider> 
           <Routes>
-            {/* Auths Routes  */}    
+            {/* Auths Routes  */}  
+            
             <Route path='/authLayout' element={ <AuthLayout /> } >       
               <Route path='iniciar-sesion' element={<IniciarSesion />} />
               <Route path='registrarse' element={<Registarse /> } />
@@ -47,6 +53,7 @@ function App() {
               <Route index element={<Reservas />} />
               <Route path='nueva-reserva' element={<NuevaReserva />} />
               <Route path='reserva-by-id/:id' element={<ReservaById />} />
+              <Route path='editar-reservas/:id' element={<EditarReserva />} />
             </Route>
           </Routes>
         </ReservasContextProvider> 
