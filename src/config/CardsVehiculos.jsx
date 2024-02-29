@@ -9,27 +9,27 @@ const CardsVehiculos = [
 
     {
         name: "Camioneta para 4 pasajeros",
-        image: {imageCamioneta},
+        image: imageCamioneta,
         desciption: 'Camioneta de 4 pasajeros comoda en muy buen estado'
     },
     {
         name: "Camioneta para 6 pasajeros",
-        image: {imageCamionetaGlory},
+        image: imageCamionetaGlory,
         desciption: 'Camioneta de 4 pasajeros comoda en muy buen estado'
     },
     {
         name: "Van de 8 pasajeros",
-        image: {imageVanDe8},
+        image: imageVanDe8,
         desciption: 'Camineta de 4 pasajeros comoda en muy buen estado'
     },
     {
         name: "Van de 15 pasajeros",
-        image: {imageVanDe15},
+        image: imageVanDe15,
         desciption: 'Camineta de 4 pasajeros comoda en muy buen estado'
     },
     {
         name: "Van de 19 pasajeros",
-        image: {imageVanDe19},
+        image: imageVanDe19,
         desciption: 'Camineta de 4 pasajeros comoda en muy buen estado'
     },
     

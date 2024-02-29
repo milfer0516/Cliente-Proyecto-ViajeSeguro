@@ -25,9 +25,9 @@ const Header = () => {
           <img className='w-20 md:w-28 md:ml-10 rounded-full bg-color-pantalla border-2' src={Logo} alt="Logo" />
         </Link>
 
-        <input id='buscar' type="search" placeholder='buscar reservas' className='rounded-lg lg:w-96 h-10 px-3' />
-
-        <div className='md:flex items-center gap-4'>
+        <input id='buscar' type="search" placeholder='buscar reservas' className='rounded-lg lg:w-96 w-full h-10 px-3' />
+        
+        <div className='flex justify-between md:flex md:gap-4 items-center mt-3 mb-2'>
           <Link to={"/reservas"} className='font-bold uppercase text-color-pantalla px-2 bg-amarillo-mostaza p-3 rounded-md text-sm'>Mis Reservas</Link>
 
           <button type='button' onClick={handleCerrarSesion} className='text-color-pantalla bg-color-btn-reservar p-3 rounded-md uppercase font-bold text-sm'>Cerrar Sesión</button>

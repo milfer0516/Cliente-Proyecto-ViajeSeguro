@@ -271,7 +271,7 @@ const FormularioReservas = (  ) => {
                 className="border w-full p-2 mt-2 placeholder-gray-400 rounded-md"
                 onChange={(e) => setNuevaReserva({...nuevaReserva, categoria: e.target.value})}
                 >
-                <option value={""}>Seleccione el tipo de vehiculo</option>
+                <option value={""}>Seleccione una categoria</option>
                 {categorias.map((categoria, index) => (
                     <option
                     key={index}
